@@ -3,13 +3,16 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router-dom";
+import { client } from "../lib/index";
 
 const schema = z.object({
-  email: z.string().min(3, { message: "Enter a valid email" }),
-  User: z
+  email: z.string()({ message: "Enter a valid email" }),
+  username: z
     .string()
     .min(3, { message: "Username must be at least 3 characters long." }),
-  Password: z.string().min(3, { message: "Enter a valid password" }),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters long." }),
 });
 
 const Sign = () => {
@@ -27,12 +30,6 @@ const Sign = () => {
     try {
       setIsLoading(true);
       const { email, User, Password } = getValues();
-
-      const response = await axios.post("/api/user/signup", {
-        email: email,
-        username: User,
-        password: Password,
-      });
 
       const data = response.data;
       if (data.accessToken) {
