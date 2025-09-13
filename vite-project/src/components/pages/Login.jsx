@@ -1,30 +1,37 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
 import { client } from "../lib/index";
 import Img from "../../assets/img/Group 91.png";
+import { useForm } from "react-hook-form";
+import { Link } from "react-router";
 
 const Login = () => {
-  const [jwt, setJwt] = useState();
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
+  // const [jwt, setJwt] = useState();
+  // const [isLoading, setIsLoading] = useState(false);
+//  const[item, setItem] = useState()
 
   const { register, handleSubmit } = useForm();
 
   const submitLogin = async (formData) => {
-    setErrorMsg("");
+    // setErrorMsg("");
     try {
-      setIsLoading(true);
-      const response = await client.get("/api/user/login", {
+      // setIsLoading(true);
+      const response = await client.post("/api/user/login", {
         username: formData.User,
         password: formData.Password,
       });
-      setJwt(response.data);
-      setIsLoading(false);
-      console.log("Login successful:", response.data);
-    } catch (err) {
-      setIsLoading(false);
-      console.error("Login error:", err);
+          console.log(response.data);
+          
+          const access = response.data.accessToken
+         
+          localStorage.setItem("access", access)
+          
+          alert("you are logged in")
+          if (response.status === 200) {
+          window.location.href = "/home";
+    }
+  } catch (error) {
+      // setIsLoading(false);
+      console.error("Login error:", error);
     }
   };
 
@@ -58,19 +65,15 @@ const Login = () => {
             <button
               type="submit"
               className="bg-blue-400 text-white px-2 py-2 rounded-md mb-4 cursor-pointer"
-              disabled={isLoading}
+          
             >
-              {isLoading ? "Loading..." : "Log in"}
+              {/* {isLoading ? "Loading..." : "Log in"} */}
+              login
             </button>
 
             <p className="text-center">
-              Don’t have an account?
-              <a
-                to="/signup"
-                className="text-blue-500 cursor-pointer px-1 py-1"
-              >
-                Sign up
-              </a>
+              Dont have an account?
+            <Link className="text-blue-600" to={"/signup"}>SingUp</Link>
             </p>
           </form>
         </div>

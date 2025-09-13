@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router-dom";
+import { client } from "../lib";
+import { useForm } from "react-hook-form";
+
 
 const schema = z.object({
   email: z.string().min(3, { message: "Enter a valid email" }),
@@ -12,7 +15,7 @@ const schema = z.object({
   Password: z.string().min(3, { message: "Enter a valid password" }),
 });
 
-const Sign = () => {
+export default function SignUp (){
   const [isLoading, setIsLoading] = useState(false);
   const {
     register,
@@ -28,7 +31,7 @@ const Sign = () => {
       setIsLoading(true);
       const { email, User, Password } = getValues();
 
-      const response = await axios.post("/api/user/signup", {
+      const response = await client.post("/api/user/signup", {
         email: email,
         username: User,
         password: Password,
@@ -42,6 +45,8 @@ const Sign = () => {
 
       setIsLoading(false);
       alert("Signup successful!");
+      if (response.status === 201) {
+          window.location.href = "/login";}
     } catch (err) {
       console.error("Signup error:", err);
       setIsLoading(false);
@@ -49,9 +54,9 @@ const Sign = () => {
   };
 
   return (
-    <section className="min-h-screen flex items-center justify-center bg-gray-50 py-10 px-4 sm:px-6 lg:px-24">
-      <div className="flex flex-col md:flex-row items-center gap-10 w-full max-w-5xl">
-        <div className="w-full md:w-1/2 flex justify-center"></div>
+    <section className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-10 px-4 sm:px-6 lg:px-24 text-black">
+      <div className="flex flex-col items-center gap-10 w-full max-w-5xl">
+        <div className="w-full md:w-1/2 flex flex-col items-center justify-center"></div>
         <div className="w-full md:w-1/2">
           <form
             onSubmit={handleSubmit(submitForm)}
@@ -103,9 +108,9 @@ const Sign = () => {
 
             <p className="text-center text-gray-600">
               Already have an account?{" "}
-              <a to="/login" className="text-blue-500 hover:underline">
-                Login
-              </a>
+            <Link to={"/login"} className="text-blue-600">
+              login
+            </Link>
             </p>
           </form>
         </div>
@@ -114,4 +119,4 @@ const Sign = () => {
   );
 };
 
-export default Sign;
+
