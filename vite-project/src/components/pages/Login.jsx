@@ -9,11 +9,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm();
 
   const submitLogin = async (formData) => {
     setErrorMsg("");
@@ -29,9 +25,6 @@ const Login = () => {
     } catch (err) {
       setIsLoading(false);
       console.error("Login error:", err);
-      setErrorMsg(
-        "Cannot reach server. Please check your connection or backend."
-      );
     }
   };
 
@@ -46,7 +39,7 @@ const Login = () => {
             onSubmit={handleSubmit(submitLogin)}
             className="flex flex-col border rounded-md lg:w-96 p-4"
           >
-            <h2 className="text-center mb-8 mt-5 text-2xl font-bold">
+            <h2 className="text-center mb-8 mt-5 font-bold font-oswald text-2xl">
               Instagram
             </h2>
 
@@ -56,26 +49,12 @@ const Login = () => {
               placeholder="User Name"
               className="border rounded-md px-2 py-2 mb-2"
             />
-            {errors.User && (
-              <p className="text-red-500 text-sm mb-2">{errors.User.message}</p>
-            )}
-
             <input
               {...register("Password", { required: "Password is required" })}
               type="password"
               placeholder="Password"
               className="border rounded-md px-2 py-2 mb-2"
             />
-            {errors.Password && (
-              <p className="text-red-500 text-sm mb-2">
-                {errors.Password.message}
-              </p>
-            )}
-
-            {errorMsg && (
-              <p className="text-red-500 text-center mb-2">{errorMsg}</p>
-            )}
-
             <button
               type="submit"
               className="bg-blue-400 text-white px-2 py-2 rounded-md mb-4 cursor-pointer"
@@ -85,10 +64,13 @@ const Login = () => {
             </button>
 
             <p className="text-center">
-              Don’t have an account?{" "}
-              <Link to="/signup" className="text-blue-500">
+              Don’t have an account?
+              <a
+                to="/signup"
+                className="text-blue-500 cursor-pointer px-1 py-1"
+              >
                 Sign up
-              </Link>
+              </a>
             </p>
           </form>
         </div>
