@@ -1,0 +1,53 @@
+import { IoIosMore } from "react-icons/io";
+import { CiHeart } from "react-icons/ci";
+import { IoChatbubbleOutline } from "react-icons/io5";
+import { CiSaveDown2 } from "react-icons/ci";
+
+
+export default function PostsCard({ id, title, content, user}) {
+        const [postData, setPostData] = useState([])
+
+    async function getPostContenets() {
+        try {
+            const access_token = localStorage.getItem("access")
+            const response = await client.get(`/api/article/${id}`,{
+            headers: {Authorization:`Bearer ${access_token}`}
+        })
+            const data = response.data
+            setPosts(data)
+            console.log(data);
+            
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+    useEffect(()=> {getPostContenets()},[])
+
+    return(
+        <div>
+            <div className="flex flex-row justify-between pb-2 items-center border-b ">
+                <div className="flex flex-row items-center gap-4">
+                    <img className="w-12 h-12 rounded-full border border-red-600" src={user.profilepicture} alt="profile" />
+                    <p className="text-lg">{user.username}</p>
+                </div>
+                <IoIosMore />
+            </div>
+            <img className="mx-auto" src="../../lewispicture.png" alt="lewispicture"/>
+            <div className="flex flex-row justify-between pt-2">
+                <div className="flex flex-row gap-4 items-center">
+                    <CiHeart className="text-4xl"/>
+                    <IoChatbubbleOutline />
+                </div>
+                <CiSaveDown2 />
+            </div>
+            <p className="text-lg">741,368 likes</p>
+            <div className="flex flex-col items-start mt-2 mb-4">
+                <p className="text-lg">{user.username} <span className="font-light">{content}</span></p>
+                <button className="text-lg">See translation</button>
+                <button className="text-lg">View all 13,384 comments</button>
+                <input className="text-lg" type="text" placeholder="Add a comment…"/>
+            </div>
+        </div>
+    )
+}
