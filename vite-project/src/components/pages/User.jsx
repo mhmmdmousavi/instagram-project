@@ -1,18 +1,22 @@
 import { useParams } from "react-router";
 import Sidebar from "../shared/Sidebar";
 import { CgMenuOreos } from "react-icons/cg";
+import { useEffect, useState } from "react";
+import { client } from "../lib";
 
 
 export default function User() {
-    const {userId} = useParams()
+    const {username} = useParams()
     const [dataItem , setDataItem] = useState(null)
 
     async function getUser() {
         try {
-            const response = await client.get(`api${userId}`)
+            const response = await client.get(`api/user/u/${username}`)
             const data = response.data.user
             console.log(data);
             setDataItem(data)
+            console.log(username);
+            
         } catch (error) {
             console.log(error);     
         }
@@ -24,25 +28,25 @@ export default function User() {
 
 
     return(
-        <div>
+        <div className="flex flex-col pl-[30%] items-center text-black pr-4 pt-4">
             <Sidebar/>
-            <div className="flex flex-col pl-[30%] items-center text-black pr-4 pt-4">
+            <div >
                 <div className="flex flex-row items-center gap-4 mt-6 mb-20">
                     <img className="rounded-full border-2 border-red-500" src="../../public/lewis.jpg" alt="" />
                     <div className="flex flex-col gap-4">
                         <div className="flex flex-row items-center gap-4">
-                            <p>{dataItem.username}</p>
+                            <p>{dataItem?.username}</p>
                             <button className="bg-gray-300 px-2 py-1 rounded-lg font-bold">Following ˅</button>
                         </div>
                         <div className="flex flex-row gap-2">
                             <p className="font-bold">1,861 <span className="font-medium">posts</span></p>
-                            <p className="font-bold">4M <span className="font-medium">followers</span></p>
-                            <p className="font-bold">454 <span className="font-medium">following</span></p>
+                            <p className="font-bold">{dataItem?.followers} <span className="font-medium">followers</span></p>
+                            <p className="font-bold">{dataItem?.followings} <span className="font-medium">following</span></p>
                         </div>
                         <div className="flex flex-col gap-2">
-                            <p className="font-bold">{dataItem.username}</p>
-                            <p>I promise I won't overdo the filters.</p>
-                            <a href="#">{dataItem.email}</a>
+                            <p className="font-bold">{dataItem?.username}</p>
+                            <p>{dataItem?.description}</p>
+                            <a href="#">{dataItem?.email}</a>
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { client } from "../lib/index";
+import { Link } from "react-router";
 
 const Search = () => {
   const [results, setResults] = useState([]);
@@ -36,7 +37,7 @@ const Search = () => {
 
 
   return (
-    <div className=" py-4 bg-white self-start px-4 rounded-xl w-6/12 ">
+    <div className="fixed py-4 bg-white self-start px-4 rounded-xl w-6/12 ">
       <h1 className="text-2xl font-bold mb-4">Search</h1>
       <div className="flex items-center  rounded-md px-2 py-2 shadow-sm mb-4 bg-gray-200 ">
        
@@ -52,7 +53,7 @@ const Search = () => {
 
       <ul className="space-y-3">
         {results.map((user) => (
-          <li
+          <Link to={`/user/u/${user.username}`}> <li
             key={user._id}
             className="flex items-center p-2 border rounded-md hover:bg-gray-50"
           >
@@ -65,7 +66,7 @@ const Search = () => {
               <p className="font-medium">{user.username}</p>
               <p className="text-sm text-gray-500">{user.email}</p>
             </div>
-          </li>
+          </li></Link>
         ))}
         {results.length === 0 && query && (
           <p className="text-gray-400">No results found</p>

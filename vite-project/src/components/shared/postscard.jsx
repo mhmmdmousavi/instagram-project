@@ -5,12 +5,14 @@ import { CiSaveDown2 } from "react-icons/ci";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { client } from "../lib";
+import { TiHeartFullOutline } from "react-icons/ti";
+import { AiOutlineHeart } from "react-icons/ai";
 
 
 
 export default function PostsCard({ _id, title, content, user}) {
         const [postData, setPostData] = useState([])
-
+        const[like , setlike] =useState(false)
     async function getPostContenets() {
         try {
             const access_token = localStorage.getItem("access")
@@ -40,9 +42,10 @@ export default function PostsCard({ _id, title, content, user}) {
                 <IoIosMore />
             </div>
             <img className="mx-auto" src="../../lewispicture.png" alt="lewispicture"/>
-            <div className="flex flex-row justify-between pt-2">
+            <div className="flex flex-row justify-between pt-2 ">
                 <div className="flex flex-row gap-4 items-center">
-                    <CiHeart className="text-4xl"/>
+                
+                    <AiOutlineHeart  onClick={()=> setlike(!like)} className={like?"text-4xl fill-red-600": " text-4xl"}/>
                     <IoChatbubbleOutline />
                 </div>
                 <CiSaveDown2 />
