@@ -8,13 +8,9 @@ import { useForm } from "react-hook-form";
 
 
 const schema = z.object({
-  email: z.string()({ message: "Enter a valid email" }),
-  username: z
-    .string()
-    .min(3, { message: "Username must be at least 3 characters long." }),
-  password: z
-    .string()
-    .min(6, { message: "Password must be at least 6 characters long." }),
+  email: z.string({ message: "Enter a valid email" }),
+  username: z.string().min(3, { message: "Username must be at least 3 characters long." }),
+  password: z.string().min(6, { message: "Password must be at least 6 characters long." }),
 });
 
 export default function SignUp (){
@@ -33,15 +29,12 @@ export default function SignUp (){
       setIsLoading(true);
       const { email, User, Password } = getValues();
 
-<<<<<<< HEAD:vite-project/src/components/pages/Sign up.jsx
-=======
-      const response = await client.post("/api/user/signup", {
+      const response = await client.post("api/user/signup", {
         email: email,
         username: User,
         password: Password,
       });
 
->>>>>>> main:vite-project/src/components/pages/Signup.jsx
       const data = response.data;
       if (data.accessToken) {
         localStorage.setItem("accessToken", data.accessToken);
@@ -70,8 +63,8 @@ export default function SignUp (){
             <h2 className="text-center text-3xl font-bold mb-6">Instagram</h2>
 
             <input
-              {...register("email")}
-              type="email"
+            {...register("email")}
+             type="email" 
               placeholder="Email"
               className="border rounded-md px-3 py-2 mb-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
@@ -82,24 +75,24 @@ export default function SignUp (){
             )}
 
             <input
-              {...register("User")}
+              {...register("username")}
               type="text"
               placeholder="Username"
               className="border rounded-md px-3 py-2 mb-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
-            {errors.User && (
-              <p className="text-red-500 text-sm mb-2">{errors.User.message}</p>
+            {errors.username && (
+              <p className="text-red-500 text-sm mb-2">{errors.username.message}</p>
             )}
 
             <input
-              {...register("Password")}
+              {...register("password")}
               type="password"
               placeholder="Password"
               className="border rounded-md px-3 py-2 mb-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
-            {errors.Password && (
+            {errors.password && (
               <p className="text-red-500 text-sm mb-2">
-                {errors.Password.message}
+                {errors.password.message}
               </p>
             )}
 
