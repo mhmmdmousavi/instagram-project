@@ -10,7 +10,7 @@ export default function Home() {
         try {
             const access_token = localStorage.getItem("access")
             
-            const response = await client.get("/api/article/timeline",{
+            const response = await client.get("api/article/timeline",{
             headers: {Authorization:`Bearer ${access_token}`}
         })
             const data = response.data.Articles

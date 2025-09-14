@@ -14,7 +14,7 @@ const Createpost = () => {
 
   const fetchPosts = async () => {
     try {
-      const response = await client.get(`/api/article`);
+      const response = await client.get(`api/article`);
       console.log(response.data);
     } catch (error) {
       console.log(error);

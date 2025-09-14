@@ -14,7 +14,7 @@ export default function PostsCard({ _id, title, content, user}) {
     async function getPostContenets() {
         try {
             const access_token = localStorage.getItem("access")
-            const response = await client.get(`/api/article/${_id}`,{
+            const response = await client.get(`api/article/${_id}`,{
             headers: {Authorization:`Bearer ${access_token}`}
         })
             const data = response.data
@@ -49,6 +49,7 @@ export default function PostsCard({ _id, title, content, user}) {
             </div>
             <p className="text-lg">741,368 likes</p>
             <div className="flex flex-col items-start mt-2 mb-4">
+                <p className="text-xl">{title}</p>
                 <p className="text-lg">{user.username} <span className="font-light">{content}</span></p>
                 <button className="text-lg">See translation</button>
                 <button className="text-lg">View all 13,384 comments</button>

@@ -15,7 +15,7 @@ const Login = () => {
     // setErrorMsg("");
     try {
       // setIsLoading(true);
-      const response = await client.post("/api/user/login", {
+      const response = await client.post("api/user/login", {
         username: formData.User,
         password: formData.Password,
       });

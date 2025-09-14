@@ -9,7 +9,7 @@ export default function Profile() {
 
     async function getUser() {
         try {
-            const response = await client.get(`/api${userId}`)
+            const response = await client.get(`api${userId}`)
             const data = response.data.user
             console.log(data);
             setDataItem(data)

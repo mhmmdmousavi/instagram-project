@@ -3,20 +3,25 @@ import { IoIosSearch } from "react-icons/io";
 import { CiSquarePlus } from "react-icons/ci";
 import { CgProfile } from "react-icons/cg";
 import { Link } from "react-router";
+import { useState } from "react";
+import Search from "./Search";
 
 
 export default function Sidebar() {
     const username = localStorage.getItem("username")
+    const [showsearch, setShowSearch] = useState(false)
     
-    return(
+    return(<>
+            {showsearch && <Search className="fixed left-0 top-0  w-6/12"/>}
         <div className="w-3/12 h-screen fixed px-4 py-6 bg-white left-0 bottom-0 flex flex-col gap-6 border-r">
-            <img className="w-4/12 py-6" src="../../public/Logo.svg" alt="Logo" />
+            <img className="w-4/12 py-6" src="/Logo.svg" alt="Logo" />
             <div className="flex flex-row items-center gap-2 text-black"><IoMdHome /><p className="text-lg font-semibold">Home</p></div>
-            <div className="flex flex-row items-center gap-2 text-black"><IoIosSearch /><p className="text-lg font-semibold">Search</p></div>
+            <div onClick={()=>setShowSearch(!showsearch)} className="flex flex-row items-center gap-2 text-black"><IoIosSearch/><p className="text-lg font-semibold">Search</p></div>
             <div className="flex flex-row items-center gap-2 text-black"><CiSquarePlus /><p className="text-lg font-semibold">Create</p></div>
             <Link to={`/user/u/${username}`}>
                 <div className="flex flex-row items-center gap-2 text-black"><CgProfile /><p className="text-lg font-semibold">Profile</p></div>
             </Link>
         </div>
+        </>
     )
 }
