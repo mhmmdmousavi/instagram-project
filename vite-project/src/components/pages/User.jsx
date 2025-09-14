@@ -1,8 +1,28 @@
+import { useParams } from "react-router";
 import Sidebar from "../shared/Sidebar";
 import { CgMenuOreos } from "react-icons/cg";
 
 
 export default function User() {
+    const {userId} = useParams()
+    const [dataItem , setDataItem] = useState(null)
+
+    async function getUser() {
+        try {
+            const response = await client.get(`/api${userId}`)
+            const data = response.data.user
+            console.log(data);
+            setDataItem(data)
+        } catch (error) {
+            console.log(error);     
+        }
+    }
+    useEffect(()=>{
+        getUser()
+    }, [])    
+
+
+
     return(
         <div>
             <Sidebar/>
@@ -11,7 +31,7 @@ export default function User() {
                     <img className="rounded-full border-2 border-red-500" src="../../public/lewis.jpg" alt="" />
                     <div className="flex flex-col gap-4">
                         <div className="flex flex-row items-center gap-4">
-                            <p>mkbhd</p>
+                            <p>{dataItem.username}</p>
                             <button className="bg-gray-300 px-2 py-1 rounded-lg font-bold">Following ˅</button>
                         </div>
                         <div className="flex flex-row gap-2">
@@ -20,9 +40,9 @@ export default function User() {
                             <p className="font-bold">454 <span className="font-medium">following</span></p>
                         </div>
                         <div className="flex flex-col gap-2">
-                            <p className="font-bold">Marques Brownlee</p>
+                            <p className="font-bold">{dataItem.username}</p>
                             <p>I promise I won't overdo the filters.</p>
-                            <a href="#">mkbhd.com</a>
+                            <a href="#">{dataItem.email}</a>
                         </div>
                     </div>
                 </div>

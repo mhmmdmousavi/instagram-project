@@ -9,6 +9,7 @@ export default function Home() {
     async function getPosts() {
         try {
             const access_token = localStorage.getItem("access")
+            
             const response = await client.get("/api/article/timeline",{
             headers: {Authorization:`Bearer ${access_token}`}
         })
