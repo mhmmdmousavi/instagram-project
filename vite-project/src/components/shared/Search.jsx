@@ -1,42 +1,63 @@
 import { useState } from "react";
+import { FaSearch } from "react-icons/fa";
 import { client } from "../lib/index";
 
 const Search = () => {
-  const [search, setSearch] = useState(false);
-  const SearchBar = async () => {
+  const [results, setResults] = useState([]);
+  const [query, setQuery] = useState("");
+
+  const handleSearch = async () => {
+    if (!query.trim()) return;
     try {
-      setSearch(true);
-      const response = await client.get("/api/user/searchUser");
-      const data = response.data;
-      setSearch(data);
-    } catch {
-      console.log(error);
+      const response = await client.get(`/api/user/u/${query}`);
+      setResults(response.data);
+    } catch (error) {
+      console.error("Search failed:", error);
     }
   };
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   return (
-    <div>
-      <h1>Search</h1>
-      <div className=" border-b-2">
+    <div className="max-w-md mx-auto p-4">
+      <h1 className="text-xl font-bold mb-4">Search</h1>
+      <div className="flex items-center border rounded-md px-2 py-2 shadow-sm mb-4">
+        <FaSearch className="text-gray-500 mr-2" />
         <input
           type="text"
-          placeholder="Search"
-          className=" border rounded-md px-2 py-2"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder="Search users..."
+          className="flex-1 outline-none"
         />
       </div>
-      <div className=" flex justify-between">
-        <p>Recent</p>
-        <a>Clear all</a>
-      </div>
 
-      <div>
-        <ul>
-          <img src="" alt="" />
-          <span></span>
-          <p></p>
-        </ul>
-      </div>
+      <ul className="space-y-3">
+        {results.map((user) => (
+          <li
+            key={user.id}
+            className="flex items-center p-2 border rounded-md hover:bg-gray-50"
+          >
+            <img
+              src={user.avatar}
+              alt={user.username}
+              className="w-10 h-10 rounded-full mr-3"
+            />
+            <div>
+              <p className="font-medium">{user.username}</p>
+              <p className="text-sm text-gray-500">{user.bio}</p>
+            </div>
+          </li>
+        ))}
+        {results.length === 0 && query && (
+          <p className="text-gray-400">No results found</p>
+        )}
+      </ul>
     </div>
   );
 };
-
 export default Search;
