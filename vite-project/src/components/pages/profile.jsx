@@ -3,6 +3,24 @@ import { CgMenuOreos } from "react-icons/cg";
 
 
 export default function Profile() {
+
+    const {userId} = useParams()
+    const [dataItem , setDataItem] = useState(null)
+
+    async function getUser() {
+        try {
+            const response = await client.get(`/api${userId}`)
+            const data = response.data.user
+            console.log(data);
+            setDataItem(data)
+        } catch (error) {
+            console.log(error);     
+        }
+    }
+    useEffect(()=>{
+        getUser()
+    }, [])    
+
     return(
         <div>
             <Sidebar/>

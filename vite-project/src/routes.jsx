@@ -8,7 +8,7 @@ export const routes = createBrowserRouter([
         element: <Home/>
     },
     {
-        path: '/user',
+        path: '/user/u/:username',
         element: <User/>
     },
     {
@@ -22,5 +22,9 @@ export const routes = createBrowserRouter([
     {
         path: '/signup',
         element: <SignUp/>
-    }
+    },
+        {
+        path: '/user/u/:username',
+        element: <Profile/>
+    },
 ]) 

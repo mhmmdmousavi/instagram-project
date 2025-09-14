@@ -22,8 +22,10 @@ const Login = () => {
           console.log(response.data);
           
           const access = response.data.accessToken
-         
+          const username = response.data.data.username
           localStorage.setItem("access", access)
+          localStorage.setItem("username", username)
+    
           
           alert("you are logged in")
           if (response.status === 200) {

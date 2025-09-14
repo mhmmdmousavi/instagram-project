@@ -2,19 +2,23 @@ import { IoIosMore } from "react-icons/io";
 import { CiHeart } from "react-icons/ci";
 import { IoChatbubbleOutline } from "react-icons/io5";
 import { CiSaveDown2 } from "react-icons/ci";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { client } from "../lib";
 
 
-export default function PostsCard({ id, title, content, user}) {
+
+export default function PostsCard({ _id, title, content, user}) {
         const [postData, setPostData] = useState([])
 
     async function getPostContenets() {
         try {
             const access_token = localStorage.getItem("access")
-            const response = await client.get(`/api/article/${id}`,{
+            const response = await client.get(`/api/article/${_id}`,{
             headers: {Authorization:`Bearer ${access_token}`}
         })
             const data = response.data
-            setPosts(data)
+            setPostData(data)
             console.log(data);
             
         } catch (error) {
@@ -27,10 +31,12 @@ export default function PostsCard({ id, title, content, user}) {
     return(
         <div>
             <div className="flex flex-row justify-between pb-2 items-center border-b ">
-                <div className="flex flex-row items-center gap-4">
-                    <img className="w-12 h-12 rounded-full border border-red-600" src={user.profilepicture} alt="profile" />
-                    <p className="text-lg">{user.username}</p>
-                </div>
+                <Link to={`/user/u/${user.username}`}>
+                    <div className="flex flex-row items-center gap-4">
+                        <img className="w-12 h-12 rounded-full border border-red-600" src={user.profilepicture} alt="profile" />
+                        <p className="text-lg">{user.username}</p>
+                    </div>
+                </Link>
                 <IoIosMore />
             </div>
             <img className="mx-auto" src="../../lewispicture.png" alt="lewispicture"/>
